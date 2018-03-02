@@ -8,7 +8,7 @@ import           Control.Exception
 import           Control.Monad (unless)
 import qualified Data.Aeson as A
 import qualified Data.ByteString.Lazy as BSL
-import           Data.Foldable (asum)
+import           Data.Foldable (asum, mapM_)
 import           Data.Functor ((<$>))
 import qualified Data.IntMap.Strict as Map
 import           Data.Monoid ((<>))
@@ -100,7 +100,8 @@ renderProfile opts gProf hOut = processCcs Seq.empty (_gp_profile gProf)
           -- the rest separated by a semi-colon.
           front Seq.:< rest -> do
             T.hPutStr hOut front
-            mapM_ (\s -> System.IO.hPutChar hOut ';' >> T.hPutStr hOut s) rest
+            Data.Foldable.mapM_
+              (\s -> System.IO.hPutChar hOut ';' >> T.hPutStr hOut s) rest
             -- Once we have printed the labels, just output a space
             -- followed by a value the user is interested in
             -- measuring.
