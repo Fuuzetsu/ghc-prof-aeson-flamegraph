@@ -1,0 +1,35 @@
+build: off
+
+before_test:
+# http://help.appveyor.com/discussions/problems/6312-curl-command-not-found
+- set PATH=C:\Program Files\Git\mingw64\bin;%PATH%
+
+- curl -sS -ostack.zip -L --insecure http://www.stackage.org/stack/windows-x86_64
+- 7z x stack.zip stack.exe
+
+clone_folder: "c:\\stack"
+environment:
+  global:
+    STACK_ROOT: "c:\\sr"
+
+  matrix:
+    - RESOLVER: ""
+    - RESOLVER: "--resolver lts-2"
+      ALLOW_FAILURE: "TRUE"
+    - RESOLVER: "--resolver lts-3"
+      ALLOW_FAILURE: "TRUE"
+    - RESOLVER: "--resolver lts-6"
+    - RESOLVER: "--resolver lts-7"
+    - RESOLVER: "--resolver lts-9"
+    - RESOLVER: "--resolver lts-10"
+    - RESOLVER: "--resolver lts-nightly"
+      ALLOW_FAILURE: "TRUE"
+
+matrix:
+  allow_failures:
+    - ALLOW_FAILURE: "TRUE"
+
+test_script:
+# The ugly echo "" hack is to avoid complaints about 0 being an invalid file
+# descriptor
+- echo "" | stack --no-terminal %RESOLVER% test
