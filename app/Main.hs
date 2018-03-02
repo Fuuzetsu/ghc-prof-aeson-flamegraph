@@ -3,7 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 module Main (main) where
 
-import           Control.Applicative (pure)
+import           Control.Applicative (pure, (<*>))
 import           Control.Exception
 import           Control.Monad (unless)
 import qualified Data.Aeson as A
