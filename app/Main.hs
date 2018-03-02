@@ -3,21 +3,23 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 module Main (main) where
 
-import           Control.Monad (unless)
+import           Control.Applicative (pure)
 import           Control.Exception
+import           Control.Monad (unless)
 import qualified Data.Aeson as A
 import qualified Data.ByteString.Lazy as BSL
 import           Data.Foldable (asum)
+import           Data.Functor ((<$>))
+import qualified Data.IntMap.Strict as Map
 import           Data.Monoid ((<>))
+import qualified Data.Sequence as Seq
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
+import qualified Data.Vector.Generic as VG
 import qualified Options.Applicative as O
 import           Profiling.GHC.Aeson
 import           System.Exit
 import           System.IO
-import qualified Data.IntMap.Strict as Map
-import qualified Data.Vector.Generic as VG
-import qualified Data.Sequence as Seq
-import qualified Data.Text as T
-import qualified Data.Text.IO as T
 
 data Opts = Opts
   { profileFile :: !(Maybe FilePath)
