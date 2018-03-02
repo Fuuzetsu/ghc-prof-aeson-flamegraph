@@ -1,0 +1,10 @@
+resolver: lts-10.7
+packages:
+- .
+
+extra-deps:
+  - ghc-prof-aeson-0.1.0.0@rev:0
+
+nix:
+  shell-file: shell.nix
+  path: ["nixpkgs=./nixpkgs.nix"]
